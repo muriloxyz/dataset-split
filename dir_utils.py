@@ -5,17 +5,14 @@ def list_dirs(path):
     Given a path, it will return all subdirectorie in it
     except hidden ones.
     '''
-    dirs = [fd for fd, _, _ in os.walk(path)]
-    dirs = list(filter(lambda x: x[0:3] != './.', dirs))
-    dirs = list(filter(lambda x: x != '.', dirs))
-    return dirs
+    dirs = [f for f in os.listdir(path) if os.path.isdir(f)]
+    return list(filter(lambda x: x[0] != '.', dirs))
 
-def create_dirs(path)
+def create_dirs(dirs):
     '''
     Recieves a list of dirs and a path.
     Will create empty dirs inside the path.
     '''
     for d in dirs:
-        os.mkdir(d[2:], 0755)
+        os.mkdir(d)
 
-print(list_dirs('.'))
