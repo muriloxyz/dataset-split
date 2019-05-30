@@ -16,4 +16,7 @@ def create_dirs(path, dirs):
     Recieves a list of dirs and a path.
     Will create empty dirs inside the path.
     '''
-    pass    
+    for d in dirs:
+        os.mkdir(osp.join(path, d))
+
+
