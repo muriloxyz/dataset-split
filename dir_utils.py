@@ -2,6 +2,12 @@ import os
 import os.path as osp
 import shutil as sh
 
+def move_files(origin, dest, items):
+    for item in items:
+        origin_file = osp.join(origin, item)
+        sh.move(origin_file, dest)
+
+
 def list_dirs(path):
     '''
     Given a path, it will return all subdirectories in it
