@@ -1,5 +1,6 @@
 import os
 import os.path as osp
+import shutil as sh
 
 def list_dirs(path):
     '''
@@ -19,4 +20,11 @@ def create_dirs(path, dirs):
     for d in dirs:
         os.mkdir(osp.join(path, d))
 
-
+def remove_dirs(path, dirs):
+    '''
+    Recieves a list of dirs and a path.
+    Will remove recursively every listed directories
+    inside the path and anything inside them.
+    '''
+    for d in dirs:
+        sh.rmtree(osp.join(path, d))
