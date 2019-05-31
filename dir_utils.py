@@ -3,6 +3,11 @@ import os.path as osp
 import shutil as sh
 
 def move_files(origin, dest, items):
+    '''
+    Given 2 paths, origin and (dest)iny, and a list of items,
+    it will move all listed files of origin to the specified
+    destination.
+    '''
     for item in items:
         origin_file = osp.join(origin, item)
         sh.move(origin_file, dest)
