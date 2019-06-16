@@ -56,7 +56,9 @@ def split_data(path, classes, new_folders):
 
 def main():
     '''
-    To be added
+    Splits a dataset after reading it's path
+    through cmd line and the desired ratio.
+    Will create three new folders: train, test, valid
     '''
     args = arguments.get_arguments()
     ratio = args.ratio
