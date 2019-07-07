@@ -54,21 +54,15 @@ def split_data(path, classes, new_folders):
         splits = calculate_splits(items, new_folders)
         move_data(path, splits, subd)
 
-def main():
+def split(ratio, path):
     '''
     Splits a dataset after reading it's path
     through cmd line and the desired ratio.
     Will create three new folders: train, test, valid
     '''
-    args = arguments.get_arguments()
-    ratio = args.ratio
-    # Customized path 
-    path = osp.join(os.getcwd(), args.path)
-
     # Making sure that 3 floats came from cmd line
     assert len(ratio) == 3, "Ratio didn't get 3 parameters"
     assert sum(ratio) == 1, "Ratio doesn't sum up to 1"
-
     data_folders = dict(zip(['train', 'valid', 'test'], ratio))
     classes = utils.list_dirs(path)
     utils.create_dirs(path, data_folders.keys()) 
@@ -76,6 +70,9 @@ def main():
     split_data(path, classes, data_folders)
     utils.remove_dirs(path, classes)
 
+def main():
+    args = arguments.get_arguments()
+    split(args.ratio, args.path)
 
 if __name__ == '__main__':
     main()
