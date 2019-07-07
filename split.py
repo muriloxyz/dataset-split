@@ -81,7 +81,8 @@ def split(ratio, path, copy):
     utils.create_dirs(path, data_folders.keys()) 
     replicate_classes(path, classes, data_folders)
     split_data(path, classes, data_folders, copy)
-    utils.remove_dirs(path, classes)
+    if not copy:
+        utils.remove_dirs(path, classes)
 
 def main():
     args = arguments.get_arguments()
