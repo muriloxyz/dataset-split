@@ -43,7 +43,17 @@ def move_data(path, splits, subd):
         dest = osp.join(path, d, subd)
         utils.move_files(origin, dest, splits[d])
 
-def split_data(path, classes, new_folders):
+def copy_data(path, splits, subd):
+    '''
+    With the split already decided, this function
+    copies the files to their respective destination.
+    '''
+    for d in splits.keys():
+        origin = osp.join(path, subd)
+        dest = osp.join(path, d, subd)
+        utils.copy_files(origin, dest, splits[d])
+
+def split_data(path, classes, new_folders, copy_enabled):
     '''
     Calculates the split for traint-valid-test dirs
     and moves the right amount of files.
@@ -52,9 +62,12 @@ def split_data(path, classes, new_folders):
         temp_path = osp.join(path, subd)
         items = [f for f in os.listdir(temp_path)]
         splits = calculate_splits(items, new_folders)
-        move_data(path, splits, subd)
+        if copy_enabled:
+            move_data(path, splits, subd)
+        else:
+            copy_data(path, splits, subd)
 
-def split(ratio, path):
+def split(ratio, path, copy):
     '''
     Splits a dataset after reading it's path
     through cmd line and the desired ratio.
@@ -67,12 +80,12 @@ def split(ratio, path):
     classes = utils.list_dirs(path)
     utils.create_dirs(path, data_folders.keys()) 
     replicate_classes(path, classes, data_folders)
-    split_data(path, classes, data_folders)
+    split_data(path, classes, data_folders, copy)
     utils.remove_dirs(path, classes)
 
 def main():
     args = arguments.get_arguments()
-    split(args.ratio, args.path)
+    split(args.ratio, args.path, args.copy)
 
 if __name__ == '__main__':
     main()
