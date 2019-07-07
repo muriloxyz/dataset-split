@@ -5,13 +5,22 @@ import shutil as sh
 def move_files(origin, dest, items):
     '''
     Given 2 paths, origin and (dest)iny, and a list of items,
-    it will move all listed files of origin to the specified
+    it will MOVE all listed files of origin to the specified
     destination.
     '''
     for item in items:
         origin_file = osp.join(origin, item)
         sh.move(origin_file, dest)
 
+def copy_files(origin, dest, items):
+    '''
+    Given 2 paths, origin and (dest)iny, and a list of items,
+    it will COPY all listed files of origin to the specified
+    destination.
+    '''
+    for item in items:
+        origin_file = osp.join(origin, item)
+        sh.copy2(origin_file, dest)
 
 def list_dirs(path):
     '''
