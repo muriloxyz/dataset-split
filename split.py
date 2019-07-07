@@ -85,7 +85,8 @@ def split(ratio, path, copy):
 
 def main():
     args = arguments.get_arguments()
-    split(args.ratio, args.path, args.copy)
+    path = osp.join(os.getcwd(), args.path)
+    split(args.ratio, path, args.copy)
 
 if __name__ == '__main__':
     main()
