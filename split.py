@@ -5,7 +5,7 @@ import os.path as osp
 from random import shuffle
 from math import ceil, floor
 
-# convention: args come in (train, val, test) format
+# convention: args come in (train, test, val) format
 
 def replicate_classes(path, classes, subdirs):
     '''
@@ -28,8 +28,8 @@ def calculate_splits(items, folders):
     test_limit = train_limit + floor(folders['test'] * n)
     #Sliced list for every subset
     split = {'train': items[:train_limit],
-             'valid': items[train_limit:test_limit],
-             'test': items[test_limit:]
+             'test': items[train_limit:test_limit],
+             'valid': items[test_limit:]
             }
     return split
 
@@ -76,7 +76,7 @@ def split(ratio, path, copy):
     # Making sure that 3 floats came from cmd line
     assert len(ratio) == 3, "Ratio didn't get 3 parameters"
     assert sum(ratio) == 1, "Ratio doesn't sum up to 1"
-    data_folders = dict(zip(['train', 'valid', 'test'], ratio))
+    data_folders = dict(zip(['train', 'test', 'valid'], ratio))
     classes = utils.list_dirs(path)
     utils.create_dirs(path, data_folders.keys()) 
     replicate_classes(path, classes, data_folders)
