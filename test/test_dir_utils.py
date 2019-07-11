@@ -12,6 +12,7 @@ import dir_utils
 SAFE_FOLDER = osp.join(os.getcwd(), 'test-directories')
 TEST_PATH = osp.join(os.getcwd(), 'test-directories-exec')
 TEST_DIRS = ['OMG', 'ROFL', 'XOXO', '.SNEAKY']
+ORIGINAL_DIRS = ['folder1', 'folder2']
 
 @pytest.fixture(autouse=True)
 def clean_mess():
@@ -32,8 +33,21 @@ def test_list_dirs():
     assert expected2 == set(listed_dirs2)
 
 def test_create_dirs():
+    #Creating dumming directories
     dir_utils.create_dirs(TEST_PATH, TEST_DIRS)
+    #Listing every dir
     listed_dirs = [d for d in os.listdir(TEST_PATH)]
-    expected = set(TEST_DIRS).union({'folder1', 'folder2'})
+    expected = set(TEST_DIRS).union(set(ORIGINAL_DIRS))
     assert len(expected) == len(listed_dirs)
     assert expected == set(listed_dirs)
+
+def test_remove_dirs():
+    # Creating dummie directories
+    for d in TEST_DIRS:
+        os.mkdir(osp.join(TEST_PATH, d))
+    #Removing them
+    dir_utils.remove_dirs(TEST_PATH, TEST_DIRS)
+    #Listing and testing
+    listed_dirs = [d for d in os.listdir(TEST_PATH)]
+    assert  set(ORIGINAL_DIRS) == set(listed_dirs)
+
