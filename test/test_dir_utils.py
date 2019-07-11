@@ -2,9 +2,14 @@ import pytest
 import os
 import os.path as osp
 import shutil as sh
+
+# Adding parent directory in order to
+# import dir_utils
+import sys
+sys.path.append("..")
 import dir_utils
 
-TEST_PATH = osp.join(os.getcwd(), 'test')
+TEST_PATH = osp.join(os.getcwd())
 TEST_DIRS = ['OMG', 'ROFL', 'XOXO', '.SNEAKY']
 
 def test_list_dirs():
