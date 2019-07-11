@@ -2,15 +2,14 @@ import pytest
 import os
 import os.path as osp
 import shutil as sh
-
-# Adding parent directory in order to
-# import dir_utils
+# Adding parent directory to path
+# so dir_utils is importable 
 import sys
-sys.path.append("..")
+sys.path.append('..')
 import dir_utils
 
-SAFE_FOLDER = osp.join(os.getcwd(), 'test-directories')
-TEST_PATH = osp.join(os.getcwd(), 'test-directories-exec')
+SAFE_FOLDER = osp.join(os.getcwd(), 'test', 'test-directories')
+TEST_PATH = osp.join(os.getcwd(), 'test', 'test-directories-exec')
 TEST_DIRS = ['OMG', 'ROFL', 'XOXO', '.SNEAKY']
 ORIGINAL_DIRS = ['folder1', 'folder2']
 
