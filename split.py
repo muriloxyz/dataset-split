@@ -2,7 +2,7 @@ import arguments
 import dir_utils as utils
 import os
 import os.path as osp
-from random import shuffle
+import random
 from math import ceil, floor
 
 # convention: args come in (train, test, val) format
@@ -21,7 +21,9 @@ def calculate_splits(items, folders):
     shuffles (if requested) the files and decides their final
     folder in the split.
     '''
-    shuffle(items)
+    #Generates a random seed and shuffle items
+    random.seed = os.urandom(49)
+    random.shuffle(items)
     n = len(items)
     #Calculating where the list will be sliced
     train_limit = ceil(folders['train'] * n)
