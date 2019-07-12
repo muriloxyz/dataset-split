@@ -5,7 +5,8 @@ import os.path as osp
 import random
 from math import ceil, floor
 
-# convention: args come in (train, test, val) format
+#CONVENTION: args come in (train, test, val) format 
+COPY_FOLDER = '_split_'
 
 def replicate_classes(path, classes, subdirs):
     '''
@@ -35,24 +36,30 @@ def calculate_splits(items, folders):
             }
     return split
 
-def move_data(path, splits, subd):
+def move_data(path, splits, subd, copy_enabled):
     '''
     With the split already decided, this function
     moves the files to their respective destination.
     '''
     for d in splits.keys():
         origin = osp.join(path, subd)
-        dest = osp.join(path, d, subd)
+        if copy_enabled:
+            dest = osp.join(path, COPY_FOLDER, d, subd)
+        else:
+            dest = osp.join(path, d, subd)
         utils.move_files(origin, dest, splits[d])
 
-def copy_data(path, splits, subd):
+def copy_data(path, splits, subd, copy_enabled):
     '''
     With the split already decided, this function
     copies the files to their respective destination.
     '''
     for d in splits.keys():
         origin = osp.join(path, subd)
-        dest = osp.join(path, d, subd)
+        if copy_enabled:
+            dest = osp.join(path, COPY_FOLDER, d, subd)
+        else:
+            dest = osp.join(path, d, subd)
         utils.copy_files(origin, dest, splits[d])
 
 def split_data(path, classes, new_folders, copy_enabled):
@@ -65,11 +72,11 @@ def split_data(path, classes, new_folders, copy_enabled):
         items = [f for f in os.listdir(temp_path)]
         splits = calculate_splits(items, new_folders)
         if copy_enabled:
-            move_data(path, splits, subd)
+            copy_data(path, splits, subd, True)
         else:
-            copy_data(path, splits, subd)
+            move_data(path, splits, subd, False)
 
-def split(ratio, path, copy):
+def split(ratio, path, copy_enabled):
     '''
     Splits a dataset after reading it's path
     through cmd line and the desired ratio.
@@ -80,10 +87,16 @@ def split(ratio, path, copy):
     assert sum(ratio) == 1, "Ratio doesn't sum up to 1"
     data_folders = dict(zip(['train', 'test', 'valid'], ratio))
     classes = utils.list_dirs(path)
-    utils.create_dirs(path, data_folders.keys()) 
-    replicate_classes(path, classes, data_folders)
-    split_data(path, classes, data_folders, copy)
-    if not copy:
+    if copy_enabled:
+        copy_path = osp.join(path, COPY_FOLDER)
+        os.mkdir(copy_path)
+        utils.create_dirs(copy_path, data_folders.keys()) 
+        replicate_classes(copy_path, classes, data_folders)
+        split_data(path, classes, data_folders, True)
+    else:
+        utils.create_dirs(path, data_folders.keys())
+        replicate_classes(path, classes, data_folders)
+        split_data(path, classes, data_folders, False)
         utils.remove_dirs(path, classes)
 
 def main():
