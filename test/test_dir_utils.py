@@ -2,10 +2,6 @@ import pytest
 import os
 import os.path as osp
 import shutil as sh
-# Adding parent directory to path
-# so dir_utils is importable 
-import sys
-sys.path.append('..')
 import dir_utils
 
 SAFE_FOLDER = osp.join(os.getcwd(), 'test', 'test-directories')
