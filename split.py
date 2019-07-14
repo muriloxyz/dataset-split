@@ -16,15 +16,16 @@ def replicate_classes(path, classes, subdirs):
     for subd in subdirs:
         utils.create_dirs(osp.join(path, subd), classes)
 
-def calculate_splits(items, folders):
+def calculate_splits(items, folders, shuffle_enabled):
     '''
     With a list of files (items) and numbers for folders ratios,
     shuffles (if requested) the files and decides their final
     folder in the split.
     '''
-    #Generates a random seed and shuffle items
-    random.seed = os.urandom(49)
-    random.shuffle(items)
+    #If requested, generates a random seed and shuffle items
+    if shuffle_enabled:
+        random.seed = os.urandom(49)
+        random.shuffle(items)
     n = len(items)
     #Calculating where the list will be sliced
     train_limit = ceil(folders['train'] * n)
@@ -62,7 +63,7 @@ def copy_data(path, splits, subd, copy_enabled):
             dest = osp.join(path, d, subd)
         utils.copy_files(origin, dest, splits[d])
 
-def split_data(path, classes, new_folders, copy_enabled):
+def split_data(path, classes, new_folders, copy_enabled, shuffle_enabled):
     '''
     Calculates the split for traint-valid-test dirs
     and moves the right amount of files.
@@ -70,13 +71,13 @@ def split_data(path, classes, new_folders, copy_enabled):
     for subd in classes:
         temp_path = osp.join(path, subd)
         items = [f for f in os.listdir(temp_path)]
-        splits = calculate_splits(items, new_folders)
+        splits = calculate_splits(items, new_folders, shuffle_enabled)
         if copy_enabled:
             copy_data(path, splits, subd, True)
         else:
             move_data(path, splits, subd, False)
 
-def split(ratio, path, copy_enabled):
+def split(ratio, path, copy_enabled, shuffle_enabled=True):
     '''
     Splits a dataset after reading it's path
     through cmd line and the desired ratio.
@@ -92,17 +93,17 @@ def split(ratio, path, copy_enabled):
         os.mkdir(copy_path)
         utils.create_dirs(copy_path, data_folders.keys()) 
         replicate_classes(copy_path, classes, data_folders)
-        split_data(path, classes, data_folders, True)
+        split_data(path, classes, data_folders, True, shuffle_enabled)
     else:
         utils.create_dirs(path, data_folders.keys())
         replicate_classes(path, classes, data_folders)
-        split_data(path, classes, data_folders, False)
+        split_data(path, classes, data_folders, False, shuffle_enabled)
         utils.remove_dirs(path, classes)
 
 def main():
     args = arguments.get_arguments()
     path = osp.join(os.getcwd(), args.path)
-    split(args.ratio, path, args.copy)
+    split(args.ratio, path, args.copy, not args.noshuffle)
 
 if __name__ == '__main__':
     main()
