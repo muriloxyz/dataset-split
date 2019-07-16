@@ -1,4 +1,4 @@
-# Dataset Split 
+# Dataset Split [![Build Status](https://travis-ci.com/muriloxyz/dataset-split.svg?token=4VpFwZFY4CedtAWXHopv&branch=master)](https://travis-ci.com/muriloxyz/dataset-split)
 
 Splits your dataset folder into train/validation/test subsets. Very useful for non-csv data, like images.
 
