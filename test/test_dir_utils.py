@@ -4,15 +4,16 @@ import os.path as osp
 import shutil as sh
 import dir_utils
 
-SAFE_FOLDER = osp.join(os.getcwd(), 'test', 'test-directories')
-TEST_PATH = osp.join(os.getcwd(), 'test', 'test-directories-exec')
+THIS_PATH = osp.join(os.getcwd(), 'test')
+SAFE_PATH = osp.join(THIS_PATH, 'test-directories')
+TEST_PATH = osp.join(THIS_PATH, 'test-directories-exec')
 TEST_DIRS = ['OMG', 'ROFL', 'XOXO', '.SNEAKY']
 ORIGINAL_DIRS = ['folder1', 'folder2']
 
 @pytest.fixture(autouse=True)
 def clean_mess():
     #Before each function creates a new test folder
-    sh.copytree(SAFE_FOLDER, TEST_PATH)
+    sh.copytree(SAFE_PATH, TEST_PATH)
     yield
     #After each function delete the test folder
     sh.rmtree(TEST_PATH)
