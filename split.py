@@ -1,9 +1,9 @@
-import arguments
 import dir_utils as utils
 import os
 import os.path as osp
 import random
 from math import ceil, floor
+import arguments
 
 #CONVENTION: args come in (train, test, val) format 
 COPY_FOLDER = '_split_'
@@ -37,47 +37,42 @@ def calculate_splits(items, folders, shuffle_enabled):
             }
     return split
 
-def move_data(path, splits, subd, copy_enabled):
+def move_data(orig_path, dest_path, splits, subd):
     '''
     With the split already decided, this function
     moves the files to their respective destination.
     '''
     for d in splits.keys():
-        origin = osp.join(path, subd)
-        if copy_enabled:
-            dest = osp.join(path, COPY_FOLDER, d, subd)
-        else:
-            dest = osp.join(path, d, subd)
+        origin = osp.join(orig_path, subd)
+        dest = osp.join(dest_path, d, subd)
         utils.move_files(origin, dest, splits[d])
 
-def copy_data(path, splits, subd, copy_enabled):
+def copy_data(orig_path, dest_path, splits, subd):
     '''
     With the split already decided, this function
     copies the files to their respective destination.
     '''
     for d in splits.keys():
-        origin = osp.join(path, subd)
-        if copy_enabled:
-            dest = osp.join(path, COPY_FOLDER, d, subd)
-        else:
-            dest = osp.join(path, d, subd)
+        origin = osp.join(orig_path, subd)
+        dest = osp.join(dest_path, d, subd)
         utils.copy_files(origin, dest, splits[d])
 
-def split_data(path, classes, new_folders, copy_enabled, shuffle_enabled):
+def split_data(orig_path, dest_path, classes, new_folders, 
+               copy_enabled, shuffle_enabled):
     '''
     Calculates the split for traint-valid-test dirs
     and moves the right amount of files.
     '''
     for subd in classes:
-        temp_path = osp.join(path, subd)
+        temp_path = osp.join(orig_path, subd)
         items = [f for f in os.listdir(temp_path)]
         splits = calculate_splits(items, new_folders, shuffle_enabled)
         if copy_enabled:
-            copy_data(path, splits, subd, True)
+            copy_data(orig_path, dest_path, splits, subd)
         else:
-            move_data(path, splits, subd, False)
+            move_data(orig_path, dest_path, splits, subd)
 
-def split(ratio, path, copy_enabled, shuffle_enabled=True):
+def split(ratio, orig_path, copy_enabled, shuffle_enabled=True):
     '''
     Splits a dataset after reading it's path
     through cmd line and the desired ratio.
@@ -87,18 +82,17 @@ def split(ratio, path, copy_enabled, shuffle_enabled=True):
     assert len(ratio) == 3, "Ratio didn't get 3 parameters"
     assert sum(ratio) == 1, "Ratio doesn't sum up to 1"
     data_folders = dict(zip(['train', 'test', 'valid'], ratio))
-    classes = utils.list_dirs(path)
+    dest_path = orig_path
+    classes = utils.list_dirs(orig_path) 
     if copy_enabled:
-        copy_path = osp.join(path, COPY_FOLDER)
-        os.mkdir(copy_path)
-        utils.create_dirs(copy_path, data_folders.keys()) 
-        replicate_classes(copy_path, classes, data_folders)
-        split_data(path, classes, data_folders, True, shuffle_enabled)
-    else:
-        utils.create_dirs(path, data_folders.keys())
-        replicate_classes(path, classes, data_folders)
-        split_data(path, classes, data_folders, False, shuffle_enabled)
-        utils.remove_dirs(path, classes)
+        dest_path = osp.join(orig_path, COPY_FOLDER)
+        os.mkdir(dest_path)
+    utils.create_dirs(dest_path, data_folders.keys())
+    replicate_classes(dest_path, classes, data_folders)
+    split_data(orig_path, dest_path, classes, data_folders, copy_enabled, shuffle_enabled)
+    # If copy is enabled, remove the original dataset folders
+    if not copy_enabled:
+        utils.remove_dirs(orig_path, classes)
 
 def main():
     args = arguments.get_arguments()
