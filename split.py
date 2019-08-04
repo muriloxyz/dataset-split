@@ -2,7 +2,7 @@ import dir_utils as utils
 import os
 import os.path as osp
 import random
-from math import ceil, floor
+from math import floor
 import arguments
 
 #CONVENTION: args come in (train, test, val) format 
@@ -28,7 +28,7 @@ def calculate_splits(items, folders, shuffle_enabled):
         random.shuffle(items)
     n = len(items)
     #Calculating where the list will be sliced
-    train_limit = ceil(folders['train'] * n)
+    train_limit = round(folders['train'] * n)
     test_limit = train_limit + floor(folders['test'] * n)
     #Sliced list for every subset
     split = {'train': items[:train_limit],
