@@ -80,7 +80,7 @@ def split(ratio, orig_path, copy_enabled, shuffle_enabled=True):
     '''
     # Making sure that 3 floats came from cmd line
     assert len(ratio) == 3, "Ratio didn't get 3 parameters"
-    assert sum(ratio) == 1, "Ratio doesn't sum up to 1"
+    assert (0.99 <= sum(ratio) <= 1.01), "Ratio doesn't sum up to 1"
     data_folders = dict(zip(['train', 'test', 'valid'], ratio))
     dest_path = orig_path
     classes = utils.list_dirs(orig_path) 
