@@ -33,11 +33,8 @@ def list_items(path):
 def quantities_check(before, after):
     before_size = sum([len(item) for item in before.values()])
     after_items = [list(dic.values()) for dic in after]
-    after_items = [y for x in after_items for y in x]
-    print(after_items)
+    after_items = [y for x in after_items for y in x] # Flatten list of lists
     after_size = sum([len(item) for item in after_items])
-    print(f"Before size: {before_size}")
-    print(f"After size: {after_size}")
     return after_size == before_size
 
 def test_split_copy():
