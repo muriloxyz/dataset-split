@@ -4,7 +4,7 @@ import os.path as osp
 import shutil as sh
 import dir_utils
 
-THIS_PATH = osp.join(os.getcwd(), 'test')
+THIS_PATH = osp.join(os.getcwd(), 'dataset-split', 'test')
 SAFE_PATH = osp.join(THIS_PATH, 'test-directories')
 TEST_PATH = osp.join(THIS_PATH, 'test-directories-exec')
 TEST_DIRS = ['OMG', 'ROFL', 'XOXO', '.SNEAKY']

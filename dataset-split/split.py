@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import dir_utils as utils
 import os
 import os.path as osp

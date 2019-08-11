@@ -5,7 +5,7 @@ import shutil as sh
 import split as sp
 
 COPY_FOLDER = '_split_'
-THIS_PATH = osp.join(os.getcwd(), 'test')
+THIS_PATH = osp.join(os.getcwd(), 'dataset-split', 'test')
 SAFE_PATH = osp.join(THIS_PATH, 'test-dataset')
 TEST_PATH = osp.join(THIS_PATH, 'test-dataset-exec')
 TEST_COPY_PATH = osp.join(TEST_PATH, COPY_FOLDER)
