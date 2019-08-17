@@ -1,4 +1,9 @@
+#!/usr/bin/python
+
+import os
+import os.path as osp
 import argparse
+import dataset_split.split as sp
 
 def get_arguments():
     help_str = "Splits your dataset intro train-test-validate subfolders!"
@@ -10,3 +15,10 @@ def get_arguments():
     # Return it as a dict
     return parser.parse_args()
 
+def main():
+    args = get_arguments()
+    path = osp.join(os.getcwd(), args.path)
+    sp(args.ratio, path, args.copy, not args.noshuffle)
+
+if __name__ == '__main__':
+    main()

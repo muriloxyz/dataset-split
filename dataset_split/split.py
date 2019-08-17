@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 
-import dir_utils as utils
 import os
 import os.path as osp
 import random
 from math import floor
-import arguments
+import dataset_split.dir_utils as utils
 
 #CONVENTION: args come in (train, test, val) format 
 COPY_FOLDER = '_split_'

@@ -2,10 +2,10 @@ import pytest
 import os
 import os.path as osp
 import shutil as sh
-import split as sp
+import dataset_split.split as sp
 
 COPY_FOLDER = '_split_'
-THIS_PATH = osp.join(os.getcwd(), 'dataset-split', 'test')
+THIS_PATH = osp.join(os.getcwd(), 'dataset_split', 'test')
 SAFE_PATH = osp.join(THIS_PATH, 'test-dataset')
 TEST_PATH = osp.join(THIS_PATH, 'test-dataset-exec')
 TEST_COPY_PATH = osp.join(TEST_PATH, COPY_FOLDER)
@@ -40,7 +40,7 @@ def quantities_check(before, after):
 def test_split_copy():
     # Tests split when copying files
     original_items = list_items(TEST_PATH)
-    sp.split(RATIO, TEST_PATH, True)
+    sp(RATIO, TEST_PATH, True)
     # Check: Copy directory created
     assert COPY_FOLDER in os.listdir(TEST_PATH)
     # Check: The number of directories increased by one (split folder)
@@ -57,7 +57,7 @@ def test_split_copy():
 def test_split_move():
     # Tests split when moving files
     original_items = list_items(TEST_PATH)
-    sp.split(RATIO, TEST_PATH, False)
+    sp(RATIO, TEST_PATH, False)
     # Check: if dataset dir only has the test/train/valid dirs. 
     assert set(list_dirs(TEST_PATH)) == set(GENERATED_DIRS)
     after_split = [list_items(osp.join(TEST_PATH, d)) 

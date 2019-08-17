@@ -2,9 +2,9 @@ import pytest
 import os
 import os.path as osp
 import shutil as sh
-import dir_utils
+import dataset_split.dir_utils as dir_utils
 
-THIS_PATH = osp.join(os.getcwd(), 'dataset-split', 'test')
+THIS_PATH = osp.join(os.getcwd(), 'dataset_split', 'test')
 SAFE_PATH = osp.join(THIS_PATH, 'test-directories')
 TEST_PATH = osp.join(THIS_PATH, 'test-directories-exec')
 TEST_DIRS = ['OMG', 'ROFL', 'XOXO', '.SNEAKY']
