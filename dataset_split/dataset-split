@@ -5,15 +5,25 @@ import os.path as osp
 import argparse
 import dataset_split.split as sp
 
+TOOL_HELP  = "Splits your dataset intro train-test-validate subfolders!"
+PATH_HELP  = "Path to the dataset you wish to split." 
+RATIO_HELP = "The train-test-validate split ratios that will be used to make the split. Default values are (0.6 0.2 0.2), respectively."
+COPY_HELP  = "If present, the original folders will be preserved and a new _split_ directory will be generated, containing the splited dataset."
+NS_HELP    = "If present, files will be sorted according to train-test-valid and ls command order."
+
+
 def get_arguments():
-    help_str = "Splits your dataset intro train-test-validate subfolders!"
-    parser = argparse.ArgumentParser(description=help_str)
-    parser.add_argument("path", type=str)
-    parser.add_argument("-r", "--ratio", nargs='+', default=[.6,.2,.2], type=float)
-    parser.add_argument("-c", "--copy", action='store_true') 
-    parser.add_argument("-ns", "--noshuffle", action='store_true')
+    parser = argparse.ArgumentParser(description=TOOL_HELP)
+    parser.add_argument("path", type=str, help=PATH_HELP)
+    parser.add_argument("-r", "--ratio", nargs='+', default=[.6,.2,.2], 
+                        type=float, help=RATIO_HELP)
+    parser.add_argument("-c", "--copy", action='store_true',
+                        help=COPY_HELP)
+    parser.add_argument("-ns", "--noshuffle", action='store_true',
+                        help=NS_HELP)
     # Return it as a dict
     return parser.parse_args()
+
 
 def main():
     args = get_arguments()
