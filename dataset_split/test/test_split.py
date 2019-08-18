@@ -6,8 +6,8 @@ import dataset_split.split as sp
 
 COPY_FOLDER = '_split_'
 THIS_PATH = osp.join(os.getcwd(), 'dataset_split', 'test')
-SAFE_PATH = osp.join(THIS_PATH, 'test-dataset')
-TEST_PATH = osp.join(THIS_PATH, 'test-dataset-exec')
+SAFE_PATH = osp.join(THIS_PATH, 'test-split')
+TEST_PATH = osp.join(THIS_PATH, 'test-split-exec')
 TEST_COPY_PATH = osp.join(TEST_PATH, COPY_FOLDER)
 GENERATED_DIRS = ['test', 'valid', 'train']
 RATIO = (.6, .2, .2) 

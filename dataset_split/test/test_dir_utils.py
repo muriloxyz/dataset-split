@@ -5,8 +5,8 @@ import shutil as sh
 import dataset_split.dir_utils as dir_utils
 
 THIS_PATH = osp.join(os.getcwd(), 'dataset_split', 'test')
-SAFE_PATH = osp.join(THIS_PATH, 'test-directories')
-TEST_PATH = osp.join(THIS_PATH, 'test-directories-exec')
+SAFE_PATH = osp.join(THIS_PATH, 'test-utils')
+TEST_PATH = osp.join(THIS_PATH, 'test-utils-exec')
 TEST_DIRS = ['OMG', 'ROFL', 'XOXO', '.SNEAKY']
 ORIGINAL_DIRS = ['folder1', 'folder2']
 
