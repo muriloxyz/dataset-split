@@ -2,7 +2,7 @@
 
 Splits your dataset folder into train/validation/test subsets. Very useful for non-csv data, like images.
 
-![](https://i.imgur.com/u4gZ87y.gif)
+![](demo.gif)
 
 ## Installation
 
